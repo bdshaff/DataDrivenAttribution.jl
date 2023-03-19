@@ -4,6 +4,13 @@ export dda
 
 using DataFramesMeta
 using SplitApplyCombine
+using NamedArray
+using Combinatorics
+using FreqTables
+using LinearAlgebra
+using LsqFit
+using ProgressBars
+using Statistics
 
 dda = function(path_df; 
     model = "markov", 
