@@ -3,6 +3,7 @@ module DataDrivenAttribution
 export dda
 
 using DataFramesMeta
+using SplitApplyCombine
 
 dda = function(path_df; 
     model = "markov", 
