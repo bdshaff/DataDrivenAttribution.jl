@@ -40,6 +40,7 @@ fit_response_curves = function(ResponseTable, ConversionTable, ResutlTable)
     return ResponseCurves
 end
 
+using DataFramesMeta
 """
 generate_reach_response(PathDataStream, ConversionTable)
 """

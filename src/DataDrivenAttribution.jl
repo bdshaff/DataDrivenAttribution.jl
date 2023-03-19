@@ -2,6 +2,8 @@ module DataDrivenAttribution
 
 export dda
 
+using DataFramesMeta
+
 dda = function(path_df; 
     model = "markov", 
     markov_order = [1],
