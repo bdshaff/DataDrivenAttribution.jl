@@ -4,7 +4,7 @@ export dda
 
 using DataFramesMeta
 using SplitApplyCombine
-using NamedArray
+using NamedArrays
 using Combinatorics
 using FreqTables
 using LinearAlgebra
