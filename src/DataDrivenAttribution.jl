@@ -56,12 +56,6 @@ dda_model = function(path_df;
         conversions_df = get_shapley_conversions(shapley_df, conv_counts_vec)
     end
 
-    if include_heuristics
-        paths_vec = aggregate_path_data(path_df).path
-        heuristics_df = heuristics(paths_vec, conv_counts_vec, state_mapping_dict)
-        conversions_df = vcat(conversions_df, heuristics_df)
-    end
-
     results_df = @chain conversions_df begin
         unstack(:Model, :Conversions)
     end
