@@ -1,6 +1,6 @@
 module DataDrivenAttribution
 
-export dda
+export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution
 
 using DataFramesMeta
 using SplitApplyCombine
@@ -12,11 +12,10 @@ using LsqFit
 using ProgressBars
 using Statistics
 
-dda = function(path_df; 
+dda_model = function(path_df; 
     model = "markov", 
     markov_order = [1],
     include_heuristics = true,
-    include_summary = true,
     include_response = false)
 
     if include_response
@@ -67,13 +66,6 @@ dda = function(path_df;
 
     results_df = @chain conversions_df begin
         unstack(:Model, :Conversions)
-    end
-
-    if include_summary
-        description_df = describe_path_data(paths_vec, conv_counts_vec, drop_counts_vec, state_mapping_dict)
-        summary_df = description_df[:Summary]
-        #FDF = description_df[:FrequencyDistributions]
-        leftjoin!(results_df, summary_df, on = [:tid, :Touchpoint])
     end
 
     res_dict = Dict(:results_df => results_df, :conversions_df => conversions_df)

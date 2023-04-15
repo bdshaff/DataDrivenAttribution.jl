@@ -1,5 +1,40 @@
 using DataFramesMeta
 
+
+dda_touchpoints = function(path_df)
+  unique_sates_vec = unique(SplitApplyCombine.flatten(path_df.path))
+  unique_sates_vec
+end
+
+dda_mapping = function(path_df)
+  unique_sates_vec = dda_touchpoints(path_df)
+  state_mapping_dict = state_mapping(unique_sates_vec)
+  state_mapping_dict
+end
+
+dda_summary = function(path_df)
+  conversion_path_df = aggregate_path_data(path_df)
+  paths_vec = conversion_path_df.path
+  conv_counts_vec = conversion_path_df.total_conversions
+  drop_counts_vec = conversion_path_df.total_null
+  state_mapping_dict = dda_mapping(path_df)
+
+  description_df = describe_path_data(paths_vec, conv_counts_vec, drop_counts_vec, state_mapping_dict)
+  description_df[:Summary]
+end
+
+dda_frequency_distribution = function(path_df)
+  conversion_path_df = aggregate_path_data(path_df)
+  paths_vec = conversion_path_df.path
+  conv_counts_vec = conversion_path_df.total_conversions
+  drop_counts_vec = conversion_path_df.total_null
+  state_mapping_dict = dda_mapping(path_df)
+
+  description_df = describe_path_data(paths_vec, conv_counts_vec, drop_counts_vec, state_mapping_dict)
+  description_df[:FrequencyDistributions]
+end
+
+
 """
 state_mapping(unique_sates_vec)
 """
