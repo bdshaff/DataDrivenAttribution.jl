@@ -96,8 +96,9 @@ get_reach = function(df, p)
 end
 
 
-dda_response = function(stream_path_df, conversions_df)
+dda_response = function(stream_path_df, conversions_df, results_df, summary_df)
     response_df = generate_reach_response(stream_path_df, conversions_df)
+    leftjoin!(results_df, summary_df, on = [:tid, :Touchpoint])
     curves_df = fit_response_curves(response_df, conversions_df, results_df)
     res_dict = Dict(:response_df => response_df, :curves_df => curves_df)
     res_dict
