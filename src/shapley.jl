@@ -92,3 +92,25 @@ get_shapley_conversions = function(shapley_values, convs)
 
     return Shapley
 end
+
+dda_shapley_model = function(conversion_path_df, state_mapping_dict, include_heuristics = true)
+    paths_vec = conversion_path_df.path
+    conv_counts_vec = conversion_path_df.total_conversions
+    drop_counts_vec = conversion_path_df.total_null
+
+    unique_sates_vec = [k for k in keys(state_mapping_dict) if !(k in ["(conv)", "(drop)", "(start)"])]
+
+    coalitions_vec = get_coalitions(unique_sates_vec)
+    permutations_vec = get_permutations(unique_sates_vec)
+    cr_dict = get_coalition_conversion_rates_dict(coalitions_vec, paths_vec, conv_counts_vec, drop_counts_vec)
+    values_dict = get_values_dict(coalitions_vec, cr_dict)
+    shapley_df = get_shapley_values(state_mapping_dict, permutations_vec, values_dict)
+    conversions_df = get_shapley_conversions(shapley_df, conv_counts_vec)
+
+    if include_heuristics
+        heuristics_df = heuristics(paths_vec, conv_counts_vec, state_mapping_dict)
+        conversions_df = vcat(conversions_df, heuristics_df)
+    end
+  
+    return conversions_df
+  end

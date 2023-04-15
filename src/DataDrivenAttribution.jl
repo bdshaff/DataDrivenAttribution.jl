@@ -1,6 +1,6 @@
 module DataDrivenAttribution
 
-export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution, dda_markov_model
+export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution, dda_markov_model, dda_shapley_model
 
 using DataFramesMeta
 using SplitApplyCombine
@@ -25,7 +25,7 @@ dda_model = function(path_df;
     if model == "markov"
         conversion_path_df = aggregate_path_data(path_df)
         state_mapping_dict = dda_mapping(path_df)
-        conversions_df = dda_markov_model(conversion_path_df, markov_order, state_mapping_dict)
+        conversions_df = dda_markov_model(conversion_path_df, markov_order, state_mapping_dict, include_heuristics)
         #=
         paths_vec = conversion_path_df.path
         conv_counts_vec = conversion_path_df.total_conversions
@@ -41,6 +41,9 @@ dda_model = function(path_df;
 
     if model == "shapley"
         conversion_path_df = aggregate_path_data(path_df, false)
+        state_mapping_dict = dda_mapping(path_df)
+        conversions_df = dda_shapley_model(conversion_path_df, state_mapping_dict, include_heuristics)
+        #=
         paths_vec = conversion_path_df.path
         conv_counts_vec = conversion_path_df.total_conversions
         drop_counts_vec = conversion_path_df.total_null
@@ -54,6 +57,7 @@ dda_model = function(path_df;
         values_dict = get_values_dict(coalitions_vec, cr_dict)
         shapley_df = get_shapley_values(state_mapping_dict, permutations_vec, values_dict)
         conversions_df = get_shapley_conversions(shapley_df, conv_counts_vec)
+        =#
     end
 
     results_df = @chain conversions_df begin
