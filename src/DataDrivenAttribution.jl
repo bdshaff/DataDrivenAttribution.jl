@@ -1,6 +1,7 @@
 module DataDrivenAttribution
 
 export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution, dda_markov_model, dda_shapley_model
+export aggregate_path_data
 
 using DataFramesMeta
 using SplitApplyCombine
