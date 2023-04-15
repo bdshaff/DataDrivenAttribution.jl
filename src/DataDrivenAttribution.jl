@@ -27,38 +27,12 @@ dda_model = function(path_df;
         conversion_path_df = aggregate_path_data(path_df)
         state_mapping_dict = dda_mapping(path_df)
         conversions_df = dda_markov_model(conversion_path_df, markov_order, state_mapping_dict, include_heuristics)
-        #=
-        paths_vec = conversion_path_df.path
-        conv_counts_vec = conversion_path_df.total_conversions
-        drop_counts_vec = conversion_path_df.total_null
-
-        state_mapping_dict = dda_mapping(path_df)
-        transition_matrices_vec = [transition_matrix(paths_vec, conv_counts_vec, drop_counts_vec, state_mapping_dict, i) for i in markov_order]
-        markov_df_vec = [compute_markov_df(z[1], state_mapping_dict, conv_counts_vec, z[2]) for z in zip(transition_matrices_vec, markov_order)]
-
-        conversions_df = reduce(vcat, markov_df_vec)
-        =#
     end
 
     if model == "shapley"
         conversion_path_df = aggregate_path_data(path_df, false)
         state_mapping_dict = dda_mapping(path_df)
         conversions_df = dda_shapley_model(conversion_path_df, state_mapping_dict, include_heuristics)
-        #=
-        paths_vec = conversion_path_df.path
-        conv_counts_vec = conversion_path_df.total_conversions
-        drop_counts_vec = conversion_path_df.total_null
-
-        unique_sates_vec = dda_touchpoints(path_df)
-        state_mapping_dict = dda_mapping(path_df)
-
-        coalitions_vec = get_coalitions(unique_sates_vec)
-        permutations_vec = get_permutations(unique_sates_vec)
-        cr_dict = get_coalition_conversion_rates_dict(coalitions_vec, paths_vec, conv_counts_vec, drop_counts_vec)
-        values_dict = get_values_dict(coalitions_vec, cr_dict)
-        shapley_df = get_shapley_values(state_mapping_dict, permutations_vec, values_dict)
-        conversions_df = get_shapley_conversions(shapley_df, conv_counts_vec)
-        =#
     end
 
     results_df = @chain conversions_df begin
