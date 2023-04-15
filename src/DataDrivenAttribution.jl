@@ -22,10 +22,6 @@ dda_model = function(path_df;
     #check for valid inputs
     #make heuristics optional
 
-    if include_response
-        include_summary = true
-    end
-
     if model == "markov"
         conversion_path_df = aggregate_path_data(path_df)
         state_mapping_dict = dda_mapping(path_df)

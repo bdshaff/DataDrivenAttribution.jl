@@ -221,7 +221,7 @@ compute_markov_df = function(TransitionMatrix, state_mapping_dict, conv_counts_v
 end
 
 
-dda_markov_model = function(conversion_path_df, markov_order, state_mapping_dict, include_heuristics = true)
+dda_markov_model = function(conversion_path_df, markov_order, state_mapping_dict; include_heuristics = true)
     paths_vec = conversion_path_df.path
     conv_counts_vec = conversion_path_df.total_conversions
     drop_counts_vec = conversion_path_df.total_null
