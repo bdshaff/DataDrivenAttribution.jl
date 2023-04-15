@@ -219,3 +219,26 @@ compute_markov_df = function(TransitionMatrix, state_mapping_dict, conv_counts_v
 
     return markov_df
 end
+
+
+dda_markov_model = function(conversion_path_df, markov_order, state_mapping_dict)
+    paths_vec = conversion_path_df.path
+    conv_counts_vec = conversion_path_df.total_conversions
+    drop_counts_vec = conversion_path_df.total_null
+    
+    transition_matrices_vec = 
+    [
+      transition_matrix(paths_vec, conv_counts_vec, drop_counts_vec, state_mapping_dict, i) 
+      for i in markov_order
+    ]
+  
+    markov_df_vec = 
+    [
+      compute_markov_df(z[1], state_mapping_dict, conv_counts_vec, z[2]) 
+      for z in zip(transition_matrices_vec, markov_order)
+    ]
+  
+    conversions_df = reduce(vcat, markov_df_vec)
+  
+    return conversions_df
+  end

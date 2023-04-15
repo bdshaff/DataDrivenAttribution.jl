@@ -1,6 +1,6 @@
 module DataDrivenAttribution
 
-export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution
+export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution, dda_markov_model
 
 using DataFramesMeta
 using SplitApplyCombine
@@ -22,24 +22,21 @@ dda_model = function(path_df;
         include_summary = true
     end
 
-    unique_sates_vec = unique(SplitApplyCombine.flatten(path_df.path))
-    state_mapping_dict = state_mapping(unique_sates_vec)
-
     if model == "markov"
         conversion_path_df = aggregate_path_data(path_df)
-
+        state_mapping_dict = dda_mapping(path_df)
+        conversions_df = dda_markov_model(conversion_path_df, markov_order, state_mapping_dict)
+        #=
         paths_vec = conversion_path_df.path
         conv_counts_vec = conversion_path_df.total_conversions
         drop_counts_vec = conversion_path_df.total_null
-        #state_mapping_dict = state_mapping(paths)
 
-        #unique_sates_vec = unique(SplitApplyCombine.flatten(path_df.path))
-        #state_mapping_dict = state_mapping(unique_sates_vec)
+        state_mapping_dict = dda_mapping(path_df)
         transition_matrices_vec = [transition_matrix(paths_vec, conv_counts_vec, drop_counts_vec, state_mapping_dict, i) for i in markov_order]
         markov_df_vec = [compute_markov_df(z[1], state_mapping_dict, conv_counts_vec, z[2]) for z in zip(transition_matrices_vec, markov_order)]
 
         conversions_df = reduce(vcat, markov_df_vec)
-
+        =#
     end
 
     if model == "shapley"
@@ -47,8 +44,9 @@ dda_model = function(path_df;
         paths_vec = conversion_path_df.path
         conv_counts_vec = conversion_path_df.total_conversions
         drop_counts_vec = conversion_path_df.total_null
-        #unique_sates_vec = unique(SplitApplyCombine.flatten(paths_vec))
-        #state_mapping_dict = state_mapping(unique_sates_vec)
+
+        unique_sates_vec = dda_touchpoints(path_df)
+        state_mapping_dict = dda_mapping(path_df)
 
         coalitions_vec = get_coalitions(unique_sates_vec)
         permutations_vec = get_permutations(unique_sates_vec)
