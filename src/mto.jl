@@ -94,3 +94,11 @@ get_reach = function(df, p)
     
     return r
 end
+
+
+dda_response = function(stream_path_df, conversions_df)
+    response_df = generate_reach_response(stream_path_df, conversions_df)
+    curves_df = fit_response_curves(response_df, conversions_df, results_df)
+    res_dict = Dict(:response_df => response_df, :curves_df => curves_df)
+    res_dict
+end
