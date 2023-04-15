@@ -108,6 +108,7 @@ dda_shapley_model = function(conversion_path_df, state_mapping_dict; include_heu
     conversions_df = get_shapley_conversions(shapley_df, conv_counts_vec)
 
     if include_heuristics
+        paths_vec = join.(paths_vec,">")
         heuristics_df = heuristics(paths_vec, conv_counts_vec, state_mapping_dict)
         conversions_df = vcat(conversions_df, heuristics_df)
     end
