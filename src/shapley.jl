@@ -93,10 +93,12 @@ get_shapley_conversions = function(shapley_values, convs)
     return Shapley
 end
 
-dda_shapley_model = function(conversion_path_df, state_mapping_dict; include_heuristics = true)
+dda_shapley_model = function(conversion_path_df; include_heuristics = true)
     paths_vec = conversion_path_df.path
     conv_counts_vec = conversion_path_df.total_conversions
     drop_counts_vec = conversion_path_df.total_null
+
+    state_mapping_dict = dda_mapping(conversion_path_df)
 
     unique_sates_vec = [k for k in keys(state_mapping_dict) if !(k in ["(conv)", "(drop)", "(start)"])]
 
