@@ -25,7 +25,7 @@ dda_model = function(path_df;
     if model == "markov"
         conversion_path_df = aggregate_path_data(path_df)
         state_mapping_dict = dda_mapping(path_df)
-        conversions_df = dda_markov_model(conversion_path_df, markov_order, state_mapping_dict, include_heuristics = include_heuristics)
+        conversions_df = dda_markov_model(conversion_path_df, markov_order, include_heuristics = include_heuristics)
     end
 
     if model == "shapley"
