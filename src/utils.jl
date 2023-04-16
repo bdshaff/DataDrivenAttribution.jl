@@ -2,7 +2,11 @@ using DataFramesMeta
 
 
 dda_touchpoints = function(path_df)
-  unique_sates_vec = unique(SplitApplyCombine.flatten(path_df.path))
+  if path_df.path isa Vector{String}
+    unique_sates_vec = string.(unique(SplitApplyCombine.flatten(split.(conversion_path_df.path,">"))))
+  elseif path_df.path isa Vector{Vector{String}}
+    unique_sates_vec = unique(SplitApplyCombine.flatten(path_df.path))
+  end
   unique_sates_vec
 end
 
