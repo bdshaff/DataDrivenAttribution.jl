@@ -3,7 +3,7 @@ using DataFramesMeta
 
 dda_touchpoints = function(path_df)
   if path_df.path isa Vector{String}
-    unique_sates_vec = string.(unique(SplitApplyCombine.flatten(split.(conversion_path_df.path,">"))))
+    unique_sates_vec = string.(unique(SplitApplyCombine.flatten(split.(path_df.path,">"))))
   elseif path_df.path isa Vector{Vector{String}}
     unique_sates_vec = unique(SplitApplyCombine.flatten(path_df.path))
   end
