@@ -3,6 +3,7 @@
 dda_logistic_model = function(path_df; include_heuristics = true)
 
     state_mapping = dda_mapping(path_df)
+    unique_states = dda_touchpoints(path_df)
     paths = path_df.path
 
     X = [u in p for p in paths, u in unique_states]
