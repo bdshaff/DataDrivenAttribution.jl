@@ -10,7 +10,7 @@ dda_logistic_model = function(path_df; include_heuristics = true)
     y = path_df.conv .== "1"
 
     glm_fit = glm(X, y, Poisson())
-    attr_weights = exp.(coef(glm_fit)) ./ sum(coeffs)
+    attr_weights = exp.(coef(glm_fit)) ./ sum(coef(glm_fit))
     conversions = sum(y) .* attr_weights
 
     tid = [k for k in keys(state_mapping) if k ∉ ["(conv)","(start)","(drop)"]]
