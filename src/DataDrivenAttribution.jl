@@ -34,7 +34,7 @@ dda_model = function(path_df;
     end
 
     if model == "logisticreg"
-        conversions_df = dda_logistic_model(conversion_path_df, include_heuristics = include_heuristics)
+        conversions_df = dda_logistic_model(path_df, include_heuristics = include_heuristics)
     end
 
     results_df = @chain conversions_df begin
