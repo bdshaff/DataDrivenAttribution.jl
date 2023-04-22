@@ -3,19 +3,20 @@
 dda_logistic_model = function(path_df; include_heuristics = true)
 
     state_mapping_dict = dda_mapping(path_df)
-    unique_states = dda_touchpoints(path_df)
     paths = path_df.path
-
-    X = [u in p for p in paths, u in unique_states]
-    y = path_df.conv .== "1"
-
-    glm_fit = glm(X, y, Poisson())
-    coeffs = exp.(coef(glm_fit))
-    attr_weights = coeffs ./ sum(coeffs)
-    conversions = sum(y) .* attr_weights
 
     Touchpoint = [k for k in keys(state_mapping_dict) if k ∉ ["(conv)","(start)","(drop)"]]
     tid = [state_mapping_dict[k] for k in keys(state_mapping_dict) if k ∉ ["(conv)","(start)","(drop)"]]
+
+    X = [u in p for p in paths, u in Touchpoint]
+    y = path_df.conv .== "1"
+
+    glm_fit = glm(X, y, Poisson())
+
+    attr = sum(X .* reshape(exp.(coef(glm_fit)),1, length(coef(glm_fit))), dims = 1)
+    attr_weights = attr ./ sum(attr)
+    conversions = sum(y) .* attr_weights
+    conversions = reshape(conversions, length(attr), 1)[:]
 
     conversions_df= DataFrame(
         tid = tid, 
