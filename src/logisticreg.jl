@@ -14,8 +14,8 @@ dda_logistic_model = function(path_df; include_heuristics = true)
     attr_weights = coeffs ./ sum(coeffs)
     conversions = sum(y) .* attr_weights
 
-    tid = [k for k in keys(state_mapping_dict) if k ∉ ["(conv)","(start)","(drop)"]]
-    Touchpoint = [state_mapping_dict[k] for k in keys(state_mapping_dict) if k ∉ ["(conv)","(start)","(drop)"]]
+    Touchpoint = [k for k in keys(state_mapping_dict) if k ∉ ["(conv)","(start)","(drop)"]]
+    tid = [state_mapping_dict[k] for k in keys(state_mapping_dict) if k ∉ ["(conv)","(start)","(drop)"]]
 
     conversions_df= DataFrame(
         tid = tid, 
