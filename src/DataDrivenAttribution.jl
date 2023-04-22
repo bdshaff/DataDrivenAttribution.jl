@@ -12,6 +12,7 @@ using LinearAlgebra
 using LsqFit
 using ProgressBars
 using Statistics
+using GLM
 
 dda_model = function(path_df; 
     model = "markov", 
@@ -20,7 +21,6 @@ dda_model = function(path_df;
 
     #check format of the DF
     #check for valid inputs
-    #make heuristics optional
 
     if model == "markov"
         conversion_path_df = aggregate_path_data(path_df)
