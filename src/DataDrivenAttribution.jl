@@ -1,7 +1,8 @@
 module DataDrivenAttribution
 
-export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution, dda_markov_model, dda_shapley_model, dda_response
-export aggregate_path_data, flatten_path_data
+export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution
+export dda_markov_model, dda_shapley_model, dda_logistic_model, dda_response
+export aggregate_path_data, flatten_path_data, heuristics
 
 using DataFramesMeta
 using SplitApplyCombine
