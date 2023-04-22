@@ -32,6 +32,10 @@ dda_model = function(path_df;
         conversions_df = dda_shapley_model(conversion_path_df, include_heuristics = include_heuristics)
     end
 
+    if model == "logisticreg"
+        conversions_df = dda_logistic_model(conversion_path_df, include_heuristics = include_heuristics)
+    end
+
     results_df = @chain conversions_df begin
         unstack(:Model, :Conversions)
     end
@@ -42,6 +46,7 @@ dda_model = function(path_df;
 
 end
 
+include("logisticreg.jl")
 include("markov.jl")
 include("shapley.jl")
 include("utils.jl")
