@@ -3,6 +3,7 @@ module DataDrivenAttribution
 export dda_model, dda_touchpoints, dda_mapping, dda_summary, dda_frequency_distribution
 export dda_markov_model, dda_shapley_model, dda_logistic_model, dda_response
 export aggregate_path_data, flatten_path_data, heuristics
+export plot_conversion_volume, plot_rcr
 
 using DataFramesMeta
 using SplitApplyCombine
@@ -14,6 +15,7 @@ using LsqFit
 using ProgressBars
 using Statistics
 using GLM
+using PlotlyJS
 
 dda_model = function(path_df; 
     model = "markov", 
@@ -52,5 +54,6 @@ include("markov.jl")
 include("shapley.jl")
 include("utils.jl")
 include("mto.jl")
+include("visualization.jl")
 
 end
