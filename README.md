@@ -21,7 +21,10 @@ Currently implemented and planned methods that include
 7. Bayesian Markov-Chain (planned)
 
 
-# Install Dev Version
+# Install Dev Version: CAUTION
+
+ASSUME EVERYTHING WILL CHANGE
+Types, structures, design, interface - at this point of the lifecycle it's safe to assume that nothing about the package will remain the same in the medium to long term.
 
 using Pkg
 Pkg.add(url = "https://github.com/bdshaff/DataDrivenAttribution.jl")
