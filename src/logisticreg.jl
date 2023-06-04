@@ -2,7 +2,7 @@
 
 dda_logistic_model = function(path_df; include_heuristics = true)
 
-    state_mapping_dict = dda_mapping(path_df)
+    state_mapping_dict = dda_mapping(aggregate_path_data(path_df))
     paths = path_df.path
 
     Touchpoint = [k for k in keys(state_mapping_dict) if k ∉ ["(conv)","(start)","(drop)"]]
@@ -31,6 +31,9 @@ dda_logistic_model = function(path_df; include_heuristics = true)
         heuristics_df = heuristics(paths_vec, conv_counts_vec, state_mapping_dict)
         conversions_df = vcat(conversions_df, heuristics_df)
     end
-
-    return conversions_df
+    
+    model = Dict("glm_fit" => glm_fit, "attr_weights" => attr_weights)
+    res = LogisticAttributionModel("logisticreg", path_df, conversions_df, state_mapping_dict, model)
+    return res
+    #return conversions_df
 end

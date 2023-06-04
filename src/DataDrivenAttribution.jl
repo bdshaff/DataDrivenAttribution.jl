@@ -17,35 +17,59 @@ using Statistics
 using GLM
 using PlotlyJS
 
-dda_model = function(path_df; 
-    model = "markov", 
+
+abstract type AttributionModel end
+
+struct MarkovAttributionModel <: AttributionModel
+    method::String
+    paths::DataFrame
+    result::DataFrame
+    touchpoints::Dict
+    model::Dict
+end
+
+struct ShapleyAttributionModel <: AttributionModel
+    method::String
+    paths::DataFrame
+    result::DataFrame
+    touchpoints::Dict
+    model::Dict
+end
+
+struct LogisticAttributionModel <: AttributionModel
+    method::String
+    paths::DataFrame
+    result::DataFrame
+    touchpoints::Dict
+    model::Dict
+end
+
+dda_model = function(path_df::DataFrame; 
+    model::String = "markov", 
     markov_order = [1],
-    include_heuristics = true)
+    include_heuristics::Bool = true)
 
     #check format of the DF
     #check for valid inputs
 
     if model == "markov"
         conversion_path_df = aggregate_path_data(path_df)
-        conversions_df = dda_markov_model(conversion_path_df, markov_order, include_heuristics = include_heuristics)
+        attr_model = dda_markov_model(conversion_path_df, markov_order, include_heuristics = include_heuristics)
     end
 
     if model == "shapley"
         conversion_path_df = aggregate_path_data(path_df, false)
-        conversions_df = dda_shapley_model(conversion_path_df, include_heuristics = include_heuristics)
+        attr_model = dda_shapley_model(conversion_path_df, include_heuristics = include_heuristics)
     end
 
     if model == "logisticreg"
-        conversions_df = dda_logistic_model(path_df, include_heuristics = include_heuristics)
+        attr_model = dda_logistic_model(path_df, include_heuristics = include_heuristics)
     end
 
-    results_df = @chain conversions_df begin
-        unstack(:Model, :Conversions)
-    end
+    #results_df = @chain conversions_df begin unstack(:Model, :Conversions) end
+    ##res_dict = Dict(:results_df => results_df, :conversions_df => conversions_df)
 
-    res_dict = Dict(:results_df => results_df, :conversions_df => conversions_df)
-
-    return res_dict
+    return attr_model
 
 end
 

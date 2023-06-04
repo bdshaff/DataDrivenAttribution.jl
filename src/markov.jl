@@ -221,7 +221,7 @@ compute_markov_df = function(TransitionMatrix, state_mapping_dict, conv_counts_v
 end
 
 
-dda_markov_model = function(conversion_path_df, markov_order; include_heuristics = true)
+dda_markov_model = function(conversion_path_df::DataFrame, markov_order::Array; include_heuristics = true)
     paths_vec = conversion_path_df.path
     conv_counts_vec = conversion_path_df.total_conversions
     drop_counts_vec = conversion_path_df.total_null
@@ -246,6 +246,8 @@ dda_markov_model = function(conversion_path_df, markov_order; include_heuristics
         heuristics_df = heuristics(paths_vec, conv_counts_vec, state_mapping_dict)
         conversions_df = vcat(conversions_df, heuristics_df)
     end
-  
-    return conversions_df
+
+    model = Dict("markov_order" => markov_order, "transition_matrices" => transition_matrices_vec)
+    res = MarkovAttributionModel("markov", conversion_path_df, conversions_df, state_mapping_dict, model)
+    return res
   end

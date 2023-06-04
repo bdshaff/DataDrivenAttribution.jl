@@ -114,6 +114,9 @@ dda_shapley_model = function(conversion_path_df; include_heuristics = true)
         heuristics_df = heuristics(paths_vec, conv_counts_vec, state_mapping_dict)
         conversions_df = vcat(conversions_df, heuristics_df)
     end
-  
-    return conversions_df
+
+    model = Dict("coalitions" => coalitions_vec, "shapley_df" => shapley_df, "values" => values_dict)
+    res = ShapleyAttributionModel("shapley", conversion_path_df, conversions_df, state_mapping_dict, model)
+    return res
+    #return conversions_df
   end
