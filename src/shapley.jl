@@ -13,7 +13,7 @@ get_coalition_conversion_rates_dict
 """
 get_coalition_conversion_rates_dict = function(coalitions, paths, convs, non_convs)
     cr_dict = Dict()
-    for i in ProgressBar(eachindex(coalitions))
+    for i in eachindex(coalitions)
         cix = [p ⊆ coalitions[i] for p in paths]
         sc = sum(convs[cix])
         snc = sum(non_convs[cix])

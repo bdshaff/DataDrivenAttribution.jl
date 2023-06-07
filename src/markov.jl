@@ -55,7 +55,7 @@ transition_matrix = function(paths, conv_counts, drop_counts, state_mapping_dict
     #println("valid_inputs: " .* string(now() - t0))
   
     #t0 = now()
-    for i in ProgressBar(eachindex(valid_inputs))
+    for i in eachindex(valid_inputs)
       update_count_matrix!(CountMatrix, valid_inputs[i])
     end
     #println("update_count_matrix!: " .* string(now() - t0))
