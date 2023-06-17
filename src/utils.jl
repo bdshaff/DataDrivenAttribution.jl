@@ -1,6 +1,9 @@
 
 
-dda_touchpoints = function(path_df)
+"""
+dda_touchpoints(path_df)
+"""
+dda_touchpoints = function(path_df::DataFrame)
   if path_df.path isa Vector{String}
     unique_sates_vec = string.(unique(SplitApplyCombine.flatten(split.(path_df.path,">"))))
   elseif path_df.path isa Vector{Vector{String}}
@@ -9,13 +12,19 @@ dda_touchpoints = function(path_df)
   unique_sates_vec
 end
 
+"""
+dda_mapping(path_df)
+"""
 dda_mapping = function(path_df::DataFrame)
   unique_sates_vec = dda_touchpoints(path_df)
   state_mapping_dict = state_mapping(unique_sates_vec)
   state_mapping_dict
 end
 
-dda_summary = function(path_df)
+"""
+dda_summary(path_df)
+"""
+dda_summary = function(path_df::DataFrame)
   conversion_path_df = aggregate_path_data(path_df)
   paths_vec = conversion_path_df.path
   conv_counts_vec = conversion_path_df.total_conversions
@@ -26,7 +35,10 @@ dda_summary = function(path_df)
   description_df[:Summary]
 end
 
-dda_frequency_distribution = function(path_df)
+"""
+dda_frequency_distribution(path_df)
+"""
+dda_frequency_distribution = function(path_df::DataFrame)
   conversion_path_df = aggregate_path_data(path_df)
   paths_vec = conversion_path_df.path
   conv_counts_vec = conversion_path_df.total_conversions
@@ -36,7 +48,6 @@ dda_frequency_distribution = function(path_df)
   description_df = describe_path_data(paths_vec, conv_counts_vec, drop_counts_vec, state_mapping_dict)
   description_df[:FrequencyDistributions]
 end
-
 
 """
 state_mapping(unique_sates_vec)

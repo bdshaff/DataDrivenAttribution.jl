@@ -96,6 +96,9 @@ get_reach = function(df, p)
 end
 
 
+"""
+dda_response(stream_path_df, conversions_df, results_df, summary_df)
+"""
 dda_response = function(stream_path_df, conversions_df, results_df, summary_df)
     response_df = generate_reach_response(stream_path_df, conversions_df)
     leftjoin!(results_df, summary_df, on = [:tid, :Touchpoint])

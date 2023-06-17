@@ -1,5 +1,8 @@
 
 
+"""
+dda_shapley_model(path_df; include_heuristics)
+"""
 dda_logistic_model = function(path_df::DataFrame ; include_heuristics = true)
 
     state_mapping_dict = dda_mapping(aggregate_path_data(path_df))

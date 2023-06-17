@@ -93,7 +93,11 @@ get_shapley_conversions = function(shapley_values, convs)
     return Shapley
 end
 
-dda_shapley_model = function(conversion_path_df; include_heuristics = true)
+
+"""
+dda_shapley_model(conversion_path_df; include_heuristics)
+"""
+dda_shapley_model = function(conversion_path_df::DataFrame; include_heuristics = true)
     paths_vec = conversion_path_df.path
     conv_counts_vec = conversion_path_df.total_conversions
     drop_counts_vec = conversion_path_df.total_null

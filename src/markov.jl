@@ -220,7 +220,9 @@ compute_markov_df = function(TransitionMatrix::NamedMatrix{Float64}, state_mappi
     return markov_df
 end
 
-
+"""
+dda_markov_model(conversion_path_df, markov_order; include_heuristics)
+"""
 dda_markov_model = function(conversion_path_df::DataFrame, markov_order::Array; include_heuristics = true)
     paths_vec = conversion_path_df.path
     conv_counts_vec = conversion_path_df.total_conversions
