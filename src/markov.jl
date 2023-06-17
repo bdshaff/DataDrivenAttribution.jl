@@ -143,7 +143,7 @@ end
 """
 removal_effect(TransitionMatrix, State, BaseCVR)
 """
-removal_effect = function(TransitionMatrix::NamedMatrix{Float64}, State::String, BaseCVR::Float64)
+removal_effect = function(TransitionMatrix, State::String, BaseCVR::Float64)
 
     nms = names(TransitionMatrix,1)
     ix_to = occursin.(Regex("^$(State)U"), nms)
@@ -176,7 +176,7 @@ end
 """
 base_cvr(TransitionMatrix)
 """
-base_cvr = function(TransitionMatrix::NamedMatrix{Float64})
+base_cvr = function(TransitionMatrix)
     RemovalMatrix = TransitionMatrix[Not(["-1","1"]),:]
         
     row_sums = 1 .- Array(sum(RemovalMatrix, dims = 2))[:]
@@ -197,7 +197,7 @@ end
 """
 compute_markov_df(TransitionMatrix, state_mapping_dict, conv_counts_vec, n)
 """
-compute_markov_df = function(TransitionMatrix::NamedMatrix{Float64}, state_mapping_dict::Dict{String, String}, conv_counts_vec, n)
+compute_markov_df = function(TransitionMatrix, state_mapping_dict::Dict{String, String}, conv_counts_vec, n)
     BaseCVR = base_cvr(TransitionMatrix)
     removal_effects_vec = [(s, removal_effect(TransitionMatrix, s, BaseCVR)) for s in String.(values(state_mapping_dict)) if !(s in ["0","-1","1"])]
 
