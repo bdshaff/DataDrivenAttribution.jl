@@ -11,7 +11,9 @@ contribute in some manner to a desired outcome, and then assigning value to each
 There are a number of well-established methods for data-driven attribution modeling.
 The objective of DataDrivenAttribution.jl is to implement and make available a collection of attribution modeling algorithms and tools, all in a unified package.
 
-Currently implemented and planned methods that include
+
+# WIP Roadmap
+Currently implemented and planned methods include
 1. Markov-Chain Model
 2. Higher Order Markov-Chain Models
 3. Shapley Model
@@ -28,3 +30,20 @@ Types, structures, design, interface - at this point of the lifecycle it's safe 
 
 using Pkg
 Pkg.add(url = "https://github.com/bdshaff/DataDrivenAttribution.jl")
+
+
+# Main functions
+
+## dda_model
+
+## dda_summary
+
+## dda_markov_model
+
+## dda_shapley_model
+
+## dda_logistic_model
+
+## plot_conversion_volume
+
+## plot_rcr
