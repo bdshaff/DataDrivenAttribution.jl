@@ -1,6 +1,6 @@
 
 
-dda_logistic_model = function(path_df; include_heuristics = true)
+dda_logistic_model = function(path_df::DataFrame ; include_heuristics = true)
 
     state_mapping_dict = dda_mapping(aggregate_path_data(path_df))
     paths = path_df.path
@@ -32,8 +32,8 @@ dda_logistic_model = function(path_df; include_heuristics = true)
         conversions_df = vcat(conversions_df, heuristics_df)
     end
     
-    model = Dict("glm_fit" => glm_fit, "attr_weights" => attr_weights)
-    res = LogisticAttributionModel("logisticreg", path_df, conversions_df, state_mapping_dict, model)
+    #model = Dict("glm_fit" => glm_fit, "attr_weights" => attr_weights)
+    res = LogisticAttributionModel("logisticreg", path_df, conversions_df, state_mapping_dict, glm_fit, attr_weights)
     return res
     #return conversions_df
 end

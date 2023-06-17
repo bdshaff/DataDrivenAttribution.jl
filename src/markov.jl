@@ -247,7 +247,7 @@ dda_markov_model = function(conversion_path_df::DataFrame, markov_order::Array; 
         conversions_df = vcat(conversions_df, heuristics_df)
     end
 
-    model = Dict("markov_order" => markov_order, "transition_matrices" => transition_matrices_vec)
-    res = MarkovAttributionModel("markov", conversion_path_df, conversions_df, state_mapping_dict, model)
+    #model = Dict("markov_order" => markov_order, "transition_matrices" => transition_matrices_vec)
+    res = MarkovAttributionModel("markov", conversion_path_df, conversions_df, state_mapping_dict, markov_order, transition_matrices_vec)
     return res
   end

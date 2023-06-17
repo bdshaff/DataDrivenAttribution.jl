@@ -25,7 +25,8 @@ struct MarkovAttributionModel <: AttributionModel
     paths::DataFrame
     result::DataFrame
     touchpoints::Dict
-    model::Dict
+    momarkov_orderdel::Array
+    transition_matrices::Array
 end
 
 struct ShapleyAttributionModel <: AttributionModel
@@ -33,7 +34,9 @@ struct ShapleyAttributionModel <: AttributionModel
     paths::DataFrame
     result::DataFrame
     touchpoints::Dict
-    model::Dict
+    coalitions::Vector
+    shapley_df::DataFrame
+    values::Dict
 end
 
 struct LogisticAttributionModel <: AttributionModel
@@ -41,16 +44,29 @@ struct LogisticAttributionModel <: AttributionModel
     paths::DataFrame
     result::DataFrame
     touchpoints::Dict
-    model::Dict
+    glm_fit
+    attr_weights
 end
 
 dda_model = function(path_df::DataFrame; 
     model::String = "markov", 
-    markov_order = [1],
+    markov_order::Array = [1],
     include_heuristics::Bool = true)
 
     #check format of the DF
+    @assert "path" in names(path_df) "Path Data must contain a column names 'path'"
+    @assert "conv" in names(path_df) "Path Data must contain a column names 'conv'"
+    @assert typeof(path_df.path) == Vector{Vector{String}} "column 'path' must of of type Vector{Vector{String}}"
+    @assert typeof(path_df.conv) == Vector{String} "column 'conv' must of of type Vector{String}"
+    @assert length(unique(path_df.conv)) == 2 "Check contents of column 'conv'. Must contain both and only '1' and '-1'"
+    @assert  "1" in unique(path_df.conv) "Check contents of column 'conv'. Must contain both and only '1' and '-1'"
+    @assert  "-1" in unique(path_df.conv) "Check contents of column 'conv'. Must contain both and only '1' and '-1'"
     #check for valid inputs
+    @assert typeof(model) == String
+    @assert model in ["markov","shapley","logisticreg"] "Check parameter 'model'. Must be one of ('markov','shapley','logisticreg'])"
+    @assert typeof(markov_order) == Vector{Int}
+    @assert length(markov_order) <= 5 "Currently allowing only up to 5 markov models at a time"
+    @assert maximum(markov_order) <= 6 "Currently allowing only markov models of order 6 or lower"
 
     if model == "markov"
         conversion_path_df = aggregate_path_data(path_df)
