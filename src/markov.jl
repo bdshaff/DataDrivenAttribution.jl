@@ -103,7 +103,7 @@ end
 """
 update_count_matrix!(CountMatrix, input)
 """
-update_count_matrix! = function(CountMatrix::NamedMatrix, input::Tuple{Vector{SubString{String}}, Int64})
+update_count_matrix! = function(CountMatrix::NamedMatrix{Int}, input)
     path_array = input[1]
     paths_count = input[2]
     for i in 2:lastindex(path_array)
@@ -117,7 +117,7 @@ end
 """
 norder_path(path, z)
 """
-norder_path = function(path::Vector{SubString{String}}, z)
+norder_path = function(path, z)
     pll = [path[i[1]:(end-i[2])] for i in z]
     norder_path = []
     for j in eachindex(pll[1])
@@ -133,7 +133,7 @@ end
 """
 norder_paths(paths, n)
 """
-norder_paths = function(paths::Vector{Vector{SubString{String}}}, n)
+norder_paths = function(paths, n)
     z = zip(collect(1:1:n), collect((n-1):-1:0))
     norder_paths = [norder_path(p, z) for p in paths]
     norder_paths[length.(norder_paths) .> 0]
