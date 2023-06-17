@@ -24,7 +24,7 @@ struct MarkovAttributionModel <: AttributionModel
     method::String
     paths::DataFrame
     result::DataFrame
-    touchpoints::Dict
+    touchpoints::Dict{String, String}
     momarkov_order::Array
     transition_matrices::Array
 end
@@ -33,7 +33,7 @@ struct ShapleyAttributionModel <: AttributionModel
     method::String
     paths::DataFrame
     result::DataFrame
-    touchpoints::Dict
+    touchpoints::Dict{String, String}
     coalitions::Vector
     shapley_df::DataFrame
     values::Dict
@@ -43,7 +43,7 @@ struct LogisticAttributionModel <: AttributionModel
     method::String
     paths::DataFrame
     result::DataFrame
-    touchpoints::Dict
+    touchpoints::Dict{String, String}
     glm_fit
     attr_weights
 end

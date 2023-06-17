@@ -9,7 +9,7 @@ dda_touchpoints = function(path_df)
   unique_sates_vec
 end
 
-dda_mapping = function(path_df)
+dda_mapping = function(path_df::DataFrame)
   unique_sates_vec = dda_touchpoints(path_df)
   state_mapping_dict = state_mapping(unique_sates_vec)
   state_mapping_dict
@@ -54,7 +54,7 @@ end
 """
 apply_mapping(paths, state_mapping_dict)
 """
-apply_mapping = function(path, StateMapping)
+apply_mapping = function(path, StateMapping::Dict{String, String})
     path_array = split(path, ">")
     for i in eachindex(StateMapping)
         replace!(path_array, i => StateMapping[i])
@@ -65,7 +65,7 @@ end
 """
 describe_path_data(paths, conv_counts, drop_counts, StateMapping)
 """
-describe_path_data = function(paths, conv_counts, drop_counts, StateMapping)
+describe_path_data = function(paths, conv_counts, drop_counts, StateMapping::Dict{String, String})
     total_counts = conv_counts .+ drop_counts
     total_reach = sum(total_counts)
     path_lengths = count.(">", paths) .+ 1
@@ -133,7 +133,7 @@ end
 """
 heuristics(paths, conv_counts, StateMapping)
 """
-heuristics = function(paths, conv_counts, StateMapping)
+heuristics = function(paths::Vector{String}, conv_counts::Vector{Int}, StateMapping::Dict{String, String})
     lookup_df = DataFrame(:Touchpoint => String.(keys(StateMapping)), :tid => String.(values(StateMapping)))
     split_paths = [split(p, ">") for p in paths][conv_counts .> 0]
   
@@ -158,7 +158,7 @@ end
 """
 aggregate_path_data(path_df, join_path = true)
 """
-aggregate_path_data = function(path_df, join_path = true)
+aggregate_path_data = function(path_df::DataFrame, join_path = true)
     if join_path
       conversion_path_df = @chain path_df begin
         @rtransform :path = join(:path, ">")
@@ -190,7 +190,7 @@ end
 """
 flatten_path_data(path_df)
 """
-flatten_path_data = function(path_df)
+flatten_path_data = function(path_df::DataFrame)
       df = DataFrame(path = push!.(path_df.path, path_df.conv), id = path_df.id)
       df_flat = DataFrames.flatten(df, :path)
       df_flat.Tactic = df_flat.path

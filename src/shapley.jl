@@ -51,7 +51,7 @@ end
 """
 get_shapley_values
 """
-get_shapley_values = function(state_mapping_dict, perms, values_dict)
+get_shapley_values = function(state_mapping_dict::Dict{String, String}, perms, values_dict)
     shapley_values = []
 
     UniqueSates = [k for k in keys(state_mapping_dict) if k ∉ ["(conv)", "(drop)", "(start)"]]

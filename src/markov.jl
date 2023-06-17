@@ -2,7 +2,7 @@
 """
 create_count_matrix(UniqueStateValues)
 """
-create_count_matrix = function(UniqueStateValues)
+create_count_matrix = function(UniqueStateValues::Vector{String})
     CountMatrix = NamedArray(zeros(Int64, length(UniqueStateValues), length(UniqueStateValues)))
     setdimnames!(CountMatrix, [:trans_from, :trans_to])
     setnames!(CountMatrix, UniqueStateValues, 1)
@@ -14,7 +14,7 @@ end
 """
 transition_matrix(paths, conv_counts, drop_counts, state_mapping_dict, n = 1)
 """
-transition_matrix = function(paths, conv_counts, drop_counts, state_mapping_dict, n = 1)
+transition_matrix = function(paths::Vector{String}, conv_counts::Vector{Int}, drop_counts::Vector{Int}, state_mapping_dict::Dict{String, String}, n = 1)
     path_counts = conv_counts .+ drop_counts
     
     #t0 = now()
@@ -103,7 +103,7 @@ end
 """
 update_count_matrix!(CountMatrix, input)
 """
-update_count_matrix! = function(CountMatrix, input)
+update_count_matrix! = function(CountMatrix::NamedMatrix{Int}, input::Tuple{Vector{SubString{String}}, Int64})
     path_array = input[1]
     paths_count = input[2]
     for i in 2:lastindex(path_array)
@@ -117,7 +117,7 @@ end
 """
 norder_path(path, z)
 """
-norder_path = function(path, z)
+norder_path = function(path::Vector{SubString{String}}, z)
     pll = [path[i[1]:(end-i[2])] for i in z]
     norder_path = []
     for j in eachindex(pll[1])
@@ -133,7 +133,7 @@ end
 """
 norder_paths(paths, n)
 """
-norder_paths = function(paths, n)
+norder_paths = function(paths::Vector{Vector{SubString{String}}}, n)
     z = zip(collect(1:1:n), collect((n-1):-1:0))
     norder_paths = [norder_path(p, z) for p in paths]
     norder_paths[length.(norder_paths) .> 0]
@@ -143,7 +143,7 @@ end
 """
 removal_effect(TransitionMatrix, State, BaseCVR)
 """
-removal_effect = function(TransitionMatrix, State, BaseCVR)
+removal_effect = function(TransitionMatrix::NamedMatrix{Float64}, State::String, BaseCVR::Float64)
 
     nms = names(TransitionMatrix,1)
     ix_to = occursin.(Regex("^$(State)U"), nms)
@@ -176,7 +176,7 @@ end
 """
 base_cvr(TransitionMatrix)
 """
-base_cvr = function(TransitionMatrix)
+base_cvr = function(TransitionMatrix::NamedMatrix{Float64})
     RemovalMatrix = TransitionMatrix[Not(["-1","1"]),:]
         
     row_sums = 1 .- Array(sum(RemovalMatrix, dims = 2))[:]
@@ -197,7 +197,7 @@ end
 """
 compute_markov_df(TransitionMatrix, state_mapping_dict, conv_counts_vec, n)
 """
-compute_markov_df = function(TransitionMatrix, state_mapping_dict, conv_counts_vec, n)
+compute_markov_df = function(TransitionMatrix::NamedMatrix{Float64}, state_mapping_dict::Dict{String, String}, conv_counts_vec, n)
     BaseCVR = base_cvr(TransitionMatrix)
     removal_effects_vec = [(s, removal_effect(TransitionMatrix, s, BaseCVR)) for s in String.(values(state_mapping_dict)) if !(s in ["0","-1","1"])]
 
