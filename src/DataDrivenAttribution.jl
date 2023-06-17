@@ -25,7 +25,7 @@ struct MarkovAttributionModel <: AttributionModel
     paths::DataFrame
     result::DataFrame
     touchpoints::Dict
-    momarkov_orderdel::Array
+    momarkov_order::Array
     transition_matrices::Array
 end
 
