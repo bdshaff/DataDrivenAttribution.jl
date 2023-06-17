@@ -103,7 +103,7 @@ end
 """
 update_count_matrix!(CountMatrix, input)
 """
-update_count_matrix! = function(CountMatrix::NamedMatrix{Int}, input)
+update_count_matrix! = function(CountMatrix, input)
     path_array = input[1]
     paths_count = input[2]
     for i in 2:lastindex(path_array)
