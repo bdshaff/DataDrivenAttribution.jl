@@ -18,9 +18,11 @@ Currently implemented and planned methods include
 2. Higher Order Markov-Chain Models
 3. Shapley Model
 4. (Simple) Logistic
-5. RNNs/LSTMs (planned)
-6. Logistic with interactions/regularization + Bayesian (planned)
-7. Bayesian Markov-Chain (planned)
+
+(planned)
+5. RNNs/LSTMs 
+6. Logistic with interactions/regularization + Bayesian
+7. Bayesian Markov-Chain
 
 
 # Install Dev Version: CAUTION
