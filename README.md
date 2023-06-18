@@ -2,6 +2,8 @@
 
 Data-Driven Attribution models and algorithms
 
+Blog & Documentation @ <https://shafferbendenis.quarto.pub/data-driven-attribution/>
+
 # What is Attributions Modeling
 
 "Attribution is the process of identifying a set of user actions (“events”) across screens and touch points that
