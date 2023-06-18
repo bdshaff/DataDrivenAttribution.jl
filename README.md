@@ -33,6 +33,7 @@ ASSUME EVERYTHING WILL CHANGE
 Types, structures, design, interface - at this point of the lifecycle it's safe to assume that nothing about the package will remain the same in the medium to long term.
 
 using Pkg
+
 Pkg.add(url = "https://github.com/bdshaff/DataDrivenAttribution.jl")
 
 
